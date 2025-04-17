@@ -16,6 +16,9 @@
 \begin{document}
 <<echo=F, message=F, warning=F>>=
 library(tidyverse)
+library(patchwork)
+library(effectsize)
+library(pwr)
 @
 
 \cite{Kasdin25} show that dopamine in the brains of young zebra finches acts as 
@@ -41,9 +44,13 @@ conduct a power analysis. How many observations would the researchers
 need to detect a moderate-to-large effect ($d=0.65$) when using 
 $\alpha=0.05$ and default power (0.80) for a two-sided one sample 
 $t$ test.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% COLLECT DATA
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+<<warning = F, size='scriptsize', message =F, comment = ''>>=
+(n = pwr.t.test(d = 0.65, sig.level = 0.05, power = 0.80,
+                    alternative='two.sided', type = 'one.sample')$n)
+@
+
+
 \item Click the link to go to the paper. Find the source data for 
 Figure 2. Download the Excel file. Describe what you needed to
 do to collect the data for Figure 2(g). Note that you only need the 
@@ -65,10 +72,28 @@ do to collect the data for Figure 2(g). Note that you only need the
   that there is a difference between dopamine in the brains of
   young zebra finches when they sing further away compared to 
   closer to their adult song?
-  \item \textbf{Optional Challenge:} Can you reproduce Figure 2(g)?
-  Note that the you can use \texttt{geom\_errorbar()} to plot
-  the range created by adding the mean $\pm$ one standard deviation.
 \end{enumerate}
+
+Below are a numerical summary providing a few summary statistics for each data: Closer, Further, and Difference, and a graphical summary displaying box plots for each of the data. All of these summaries suggest that there is a difference between young zebra finches who are closer to their adult song than ones who are not, and that ones who are closer experience a positive change in dopamine while those who are further experience a negative change in dopamine.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale = 0.5]{comb_box.pdf}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlrrrr}
+  \hline
+ & names & mean & sd & variance & kurtosis \\ 
+  \hline
+1 & Closer & 0.16 & 0.09 & 0.01 & -0.86 \\ 
+  2 & Further & -0.20 & 0.13 & 0.02 & 1.19 \\ 
+  3 & Difference & 0.36 & 0.21 & 0.04 & 0.13 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONDUCT THE TESTS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,15 +107,40 @@ correction of their $p$-values. I'm waiting to hear back from them via email!
   \item ``The far responses differed significantly from 0 ($p=5.17 \times 10^{-8}$).''
   \item ``The difference between populations was significant ($p=1.04 \times10^{-8}$).''
 \end{enumerate}
+
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlrrlr}
+  \hline
+ & names & t & p & interval & g \\ 
+  \hline
+1 & Closer & 8.30 & $>0.00001$ & [0.155, 0.157] & 1.61 \\ 
+  2 & Further & -7.78 & $>0.00001$ & [-0.204, -0.201] & -1.51 \\ 
+  3 & Difference & 8.51 & $>0.00001$ & [0.356, 0.362] & 1.65 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % CONDUCT THE TESTS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item Reverse engineer the hypothesis test plot from Lecture 20 to create accurate
 hypothesis testing plots for each part of the previous question.
 \begin{enumerate}
-  \item Question 4, part(a).
-  \item Question 4, part(b).
+  \item Question 4, part(a and b).
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[scale = 0.5]{comb.t.pdf}
+    \end{figure}
+
+\pagebreak    
+
   \item Question 4, part(c).
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[scale = 0.5]{tdiff.pdf}
+    \end{figure}
 \end{enumerate}
 \end{enumerate}
 
